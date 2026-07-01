@@ -60,3 +60,8 @@ Esta versão é offline/local. A sincronização Google pode ser adicionada numa
 
 ## Correção v1.2
 Workflow Android atualizado para Node.js 22, necessário para as versões recentes do Capacitor CLI.
+
+
+## Correção v1.3
+- Workflow Android em Node 22.
+- Adicionado TypeScript às devDependencies para o Capacitor conseguir ler `capacitor.config.ts`.
