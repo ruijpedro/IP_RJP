@@ -1,67 +1,57 @@
-# IP_RJP v1.1
+# IP_RJP v2.0
 
-Aplicação simples para agenda profissional, focada apenas em:
+Aplicação profissional simples para registar **deslocações** e **prevenções**, com calendário mensal e resumo para apoio aos abonos.
 
-- Registo de dias de prevenção
-- Registo de deslocações
-- Matrícula da viatura
-- Hora de saída
-- Hora de chegada
-- Resumo mensal
-- Exportação CSV
-- WebApp
-- APK Android
+## Funções principais
 
-## Como publicar a WebApp no GitHub Pages
+- Calendário mensal com marcação **D** para deslocações e **P** para prevenções.
+- Registo de deslocações com data, origem, destino, matrícula, hora de saída, hora de chegada e observações.
+- Registo de prevenções com data, tipo BT / CC / BT/CC e observações.
+- Agenda mensal pesquisável.
+- Lista configurável de matrículas frequentes.
+- Lista configurável de locais frequentes.
+- Duplicar registos habituais.
+- Exportar CSV mensal para apoio ao preenchimento dos abonos.
+- Imprimir / guardar PDF pelo navegador.
+- Backup e reposição em JSON.
+- Funciona offline no telemóvel e na WebApp através de localStorage.
+
+## Publicar no GitHub
 
 1. Extrair o ZIP.
-2. Criar um repositório GitHub, por exemplo `IP_RJP`.
-3. Enviar todos os ficheiros e pastas soltos para a raiz do repositório.
-4. Ir a **Settings > Pages**.
-5. Em **Source**, escolher **GitHub Actions**.
-6. Ir a **Actions**.
-7. Executar o workflow **Build IP_RJP WebApp**.
-8. No fim, abrir o endereço gerado pelo GitHub Pages.
+2. Abrir a pasta `IP_RJP`.
+3. Fazer upload de todos os ficheiros e pastas para o repositório GitHub.
+4. Ir a **Actions**.
+5. Executar **Build IP_RJP Android APK** para gerar APK.
+6. Executar **Build IP_RJP WebApp** para gerar WebApp.
 
-## Como gerar APK
+## Android / APK
 
-1. Ir a **Actions**.
-2. Executar o workflow **Build IP_RJP Android APK**.
-3. No fim, descarregar o artefacto `IP_RJP-debug-apk`.
+O workflow já está preparado com:
 
-## Uso
+- Node.js 22.
+- Java 21.
+- TypeScript instalado.
+- Capacitor Android.
+- Ícone adaptativo Android `ic_launcher` e `ic_launcher_round`.
+- Nome da app: `IP_RJP`.
+- App ID: `pt.rjp.ip_rjp`.
 
-A app guarda os dados localmente no telemóvel ou navegador.
+## WebApp
 
-### Deslocações
+O projeto usa Vite + React. Para testar localmente:
 
-Campos principais:
+```bash
+npm install
+npm run dev
+```
 
-- Data
-- Origem
-- Destino
-- Matrícula
-- Hora de saída
-- Hora de chegada
-- Observações
+Para gerar a versão WebApp:
 
-### Prevenções
+```bash
+npm run build
+```
 
-Campos principais:
+## Dados
 
-- Data
-- Tipo: BT, CC ou BT/CC
-- Observações
-
-## Nota
-
-Esta versão é offline/local. A sincronização Google pode ser adicionada numa versão futura.
-
-
-## Correção v1.2
-Workflow Android atualizado para Node.js 22, necessário para as versões recentes do Capacitor CLI.
-
-
-## Correção v1.3
-- Workflow Android em Node 22.
-- Adicionado TypeScript às devDependencies para o Capacitor conseguir ler `capacitor.config.ts`.
+Os dados ficam guardados localmente no dispositivo. Usa o botão **Backup JSON** antes de trocar de telemóvel ou limpar o navegador.
