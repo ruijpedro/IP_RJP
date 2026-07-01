@@ -1,1 +1,69 @@
+name: Build IP_RJP Android APK
 
+on:
+  workflow_dispatch:
+  push:
+    branches: [ main ]
+
+permissions:
+  contents: read
+
+jobs:
+  build-android:
+    runs-on: ubuntu-latest
+    timeout-minutes: 35
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install --no-audit --no-fund --legacy-peer-deps
+
+      - name: Build WebApp
+        run: npm run build
+
+      - name: Setup Java
+        uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - name: Add Android platform if needed
+        run: |
+          if [ ! -d "android" ] || [ ! -f "android/gradlew" ]; then
+            rm -rf android
+            npx cap add android
+          fi
+
+      - name: Sync Capacitor
+        run: npx cap sync android
+
+      - name: Apply IP_RJP icons
+        run: |
+          mkdir -p android/app/src/main/res/mipmap-mdpi android/app/src/main/res/mipmap-hdpi android/app/src/main/res/mipmap-xhdpi android/app/src/main/res/mipmap-xxhdpi android/app/src/main/res/mipmap-xxxhdpi android/app/src/main/res/mipmap-anydpi-v26
+          cp resources/android/ic_launcher\(17\).png android/app/src/main/res/mipmap-mdpi/ic_launcher.png || true
+          cp resources/android/ic_launcher\(18\).png android/app/src/main/res/mipmap-hdpi/ic_launcher.png || true
+          cp resources/android/ic_launcher\(19\).png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png || true
+          cp resources/android/ic_launcher\(20\).png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png || true
+          cp resources/android/ic_launcher\(21\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || true
+          cp resources/android/ic_launcher_adaptive_back\(9\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_back.png || true
+          cp resources/android/ic_launcher_adaptive_fore\(8\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png || true
+          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml || true
+
+      - name: Build APK
+        run: |
+          cd android
+          chmod +x gradlew
+          ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: IP_RJP-debug-apk
+          path: android/app/build/outputs/apk/debug/*.apk
