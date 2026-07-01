@@ -50,17 +50,28 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
-      - name: Apply IP_RJP icons
+      - name: Apply IP_RJP icons and labels
         run: |
-          mkdir -p android/app/src/main/res/mipmap-mdpi android/app/src/main/res/mipmap-hdpi android/app/src/main/res/mipmap-xhdpi android/app/src/main/res/mipmap-xxhdpi android/app/src/main/res/mipmap-xxxhdpi android/app/src/main/res/mipmap-anydpi-v26
-          cp resources/android/ic_launcher\(17\).png android/app/src/main/res/mipmap-mdpi/ic_launcher.png || true
-          cp resources/android/ic_launcher\(18\).png android/app/src/main/res/mipmap-hdpi/ic_launcher.png || true
-          cp resources/android/ic_launcher\(19\).png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png || true
-          cp resources/android/ic_launcher\(20\).png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png || true
-          cp resources/android/ic_launcher\(21\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png || true
-          cp resources/android/ic_launcher_adaptive_back\(9\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_back.png || true
-          cp resources/android/ic_launcher_adaptive_fore\(8\).png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png || true
-          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml || true
+          cp -R resources/android/res/* android/app/src/main/res/
+          python3 - <<'PY'
+          from pathlib import Path
+          import re
+          manifest = Path('android/app/src/main/AndroidManifest.xml')
+          s = manifest.read_text()
+          s = re.sub(r'android:icon="[^"]+"', 'android:icon="@mipmap/ic_launcher"', s)
+          if 'android:roundIcon=' in s:
+              s = re.sub(r'android:roundIcon="[^"]+"', 'android:roundIcon="@mipmap/ic_launcher_round"', s)
+          else:
+              s = s.replace('<application ', '<application android:roundIcon="@mipmap/ic_launcher_round" ', 1)
+          if 'android:label=' in s:
+              s = re.sub(r'android:label="[^"]+"', 'android:label="IP_RJP"', s, count=1)
+          manifest.write_text(s)
+          strings = Path('android/app/src/main/res/values/strings.xml')
+          if strings.exists():
+              t = strings.read_text()
+              t = re.sub(r'<string name="app_name">.*?</string>', '<string name="app_name">IP_RJP</string>', t)
+              strings.write_text(t)
+          PY
 
       - name: Build APK
         run: |
