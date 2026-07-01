@@ -1,37 +1,62 @@
-# IP_RJP v1.0
+# IP_RJP v1.1
 
-Aplicação simples para registo profissional de **deslocações** e **prevenções**, pensada para apoiar o preenchimento mensal dos abonos.
+Aplicação simples para agenda profissional, focada apenas em:
 
-## Funcionalidades
+- Registo de dias de prevenção
+- Registo de deslocações
+- Matrícula da viatura
+- Hora de saída
+- Hora de chegada
+- Resumo mensal
+- Exportação CSV
+- WebApp
+- APK Android
 
-- Calendário mensal com marcações D e P.
-- Registo de deslocações: data, origem, destino, matrícula, hora de saída, hora de chegada e observações.
-- Registo de prevenções: data, tipo BT / CC / BT/CC e observações.
-- Agenda mensal.
-- Duplicar registos habituais.
-- Exportação CSV.
-- Impressão/guardar em PDF pelo navegador.
-- Funciona offline com localStorage.
+## Como publicar a WebApp no GitHub Pages
 
-## Instalação local
+1. Extrair o ZIP.
+2. Criar um repositório GitHub, por exemplo `IP_RJP`.
+3. Enviar todos os ficheiros e pastas soltos para a raiz do repositório.
+4. Ir a **Settings > Pages**.
+5. Em **Source**, escolher **GitHub Actions**.
+6. Ir a **Actions**.
+7. Executar o workflow **Build IP_RJP WebApp**.
+8. No fim, abrir o endereço gerado pelo GitHub Pages.
 
-```bash
-npm install
-npm run dev
-```
+## Como gerar APK
 
-## Build WebApp
+1. Ir a **Actions**.
+2. Executar o workflow **Build IP_RJP Android APK**.
+3. No fim, descarregar o artefacto `IP_RJP-debug-apk`.
 
-```bash
-npm run build
-```
+## Uso
 
-## APK Android
+A app guarda os dados localmente no telemóvel ou navegador.
 
-O workflow `.github/workflows/build-android.yml` compila a APK automaticamente no GitHub Actions.
+### Deslocações
 
-## Notas
+Campos principais:
 
-- Esta versão não tem Google Drive/Sheets.
-- Os dados ficam guardados localmente no dispositivo/navegador.
-- Para mudar de telemóvel, exporta CSV antes.
+- Data
+- Origem
+- Destino
+- Matrícula
+- Hora de saída
+- Hora de chegada
+- Observações
+
+### Prevenções
+
+Campos principais:
+
+- Data
+- Tipo: BT, CC ou BT/CC
+- Observações
+
+## Nota
+
+Esta versão é offline/local. A sincronização Google pode ser adicionada numa versão futura.
+
+
+## Correção v1.2
+Workflow Android atualizado para Node.js 22, necessário para as versões recentes do Capacitor CLI.
