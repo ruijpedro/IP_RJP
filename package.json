@@ -1,6 +1,6 @@
 {
   "name": "ip-rjp",
-  "version": "4.0.0-professional",
+  "version": "5.0.0-professional-2-atividades",
   "private": true,
   "type": "module",
   "scripts": {
@@ -21,7 +21,8 @@
     "react": "latest",
     "react-dom": "latest",
     "jspdf": "latest",
-    "xlsx": "latest"
+    "xlsx": "latest",
+    "@azure/msal-browser": "latest"
   },
   "devDependencies": {}
 }
