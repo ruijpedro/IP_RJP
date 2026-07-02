@@ -1,28 +1,6 @@
 {
-  "name": "ip-rjp",
-  "version": "5.0.0-professional-2-atividades",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "dev": "vite --host 0.0.0.0",
-    "build": "vite build",
-    "preview": "vite preview --host 0.0.0.0",
-    "cap:add:android": "cap add android",
-    "cap:sync": "cap sync android"
-  },
-  "dependencies": {
-    "@capacitor/android": "latest",
-    "@capacitor/app": "latest",
-    "@capacitor/core": "latest",
-    "@capacitor/cli": "latest",
-    "@vitejs/plugin-react": "latest",
-    "vite": "latest",
-    "typescript": "latest",
-    "react": "latest",
-    "react-dom": "latest",
-    "jspdf": "latest",
-    "xlsx": "latest",
-    "@azure/msal-browser": "latest"
-  },
-  "devDependencies": {}
+  "name":"ip-rjp-professional","version":"2.2.0","private":true,"type":"module",
+  "scripts":{"dev":"vite --host 0.0.0.0","build":"vite build","preview":"vite preview","cap:add":"npx cap add android","cap:sync":"npx cap sync android"},
+  "dependencies":{"@capacitor/android":"latest","@capacitor/core":"latest","@capacitor/cli":"latest","@vitejs/plugin-react":"latest","vite":"latest","react":"latest","react-dom":"latest","jspdf":"latest","xlsx":"latest","typescript":"latest"},
+  "devDependencies":{}
 }

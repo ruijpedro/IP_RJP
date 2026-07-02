@@ -1,12 +1,1 @@
-{
-  "name": "IP_RJP Professional",
-  "short_name": "IP_RJP Professional",
-  "description": "Calendário profissional para deslocações e prevenções BT/CC.",
-  "start_url": ".",
-  "display": "standalone",
-  "background_color": "#f4fbfa",
-  "theme_color": "#18b3a3",
-  "icons": [
-    { "src": "icon-512.png", "sizes": "512x512", "type": "image/png", "purpose": "any maskable" }
-  ]
-}
+{"name":"IP_RJP","short_name":"IP_RJP","start_url":"./","display":"standalone","background_color":"#f5fbfa","theme_color":"#21b2a4","icons":[{"src":"/icons/icon-512.png","sizes":"512x512","type":"image/png","purpose":"any maskable"}]}

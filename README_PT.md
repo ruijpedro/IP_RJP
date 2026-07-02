@@ -1,34 +1,28 @@
-# IP_RJP Professional 2.0 — Atividades
+# IP_RJP — Viaturas
 
-Aplicação para gestão profissional de deslocações, prevenções BT/CC e atividades diárias.
+Aplicação profissional para registo de deslocações, prevenções BT/CC, atividades e viaturas.
 
 ## Inclui
-
-- Calendário mensal
-- Agenda diária e mensal
-- Deslocações com origem, destino, matrícula, hora de saída e chegada
+- Dashboard mensal
+- Calendário com marcações
+- Deslocações com viatura por lista
 - Prevenções apenas BT ou CC
-- Novo módulo Atividades
-- Tipos de atividade configuráveis
-- Associação de atividades a deslocações do mesmo dia
-- Viaturas, destinos e perfis de horário configuráveis
-- Exportação PDF, CSV e Excel com deslocações, prevenções e atividades
-- Outlook/Microsoft 365 preparado para importar agenda e exportar registos
-- Ícones Android/PWA integrados
-- Workflow GitHub Actions para APK
+- Atividades profissionais
+- Viaturas pré-carregadas:
+  - 03-ZQ-46 — Fiat
+  - 23-ZP-64 — Renault Kangoo
+  - 87-HN-72 — Mitsubishi L200 DI-D
+- Exportação PDF
+- Exportação CSV
+- Exportação Excel XLSX
+- Preparação para Outlook / Microsoft Graph
+- WebApp/PWA
+- Capacitor Android
 
-## Como usar
+## GitHub
+Carrega os ficheiros soltos para o repositório e executa a action `Build Android APK`.
 
-1. Extrai o ZIP.
-2. Envia os ficheiros soltos para o GitHub.
-3. O workflow gera a APK.
-4. A WebApp é compilada com `npm run build`.
 
-## Outlook
-
-Configura em Definições:
-
-- Tenant ID
-- Client ID
-
-Depois usa o separador Outlook para ligar, importar eventos e exportar o mês.
+## Alterações v2.3
+- Cabeçalho alterado para: IP_RJP / Deslocações • Prevenções BT/CC.
+- Adicionado menu Sobre com autor, Infraestruturas de Portugal e © 2026.
