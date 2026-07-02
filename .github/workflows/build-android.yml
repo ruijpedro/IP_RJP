@@ -38,42 +38,51 @@ jobs:
 
       - name: Prepare Android Platform
         run: |
-          # Se existir uma pasta android incompleta, remove-a.
-          if [ -d android ] && [ ! -f android/gradlew ]; then
-            echo "Pasta android incompleta encontrada. A recriar..."
-            rm -rf android
-          fi
-
-          # Cria a plataforma Android completa se ainda não existir.
-          if [ ! -d android ]; then
-            npx cap add android
-          fi
-
-      - name: Sync Capacitor
-        run: npx cap sync android
+          rm -rf android
+          npx cap add android
+          npx cap sync android
 
       - name: Apply IP_RJP Icons
         run: |
-          if [ -d android-res ]; then
-            cp -r android-res/* android/app/src/main/res/
-          fi
+          mkdir -p android/app/src/main/res/mipmap-mdpi
+          mkdir -p android/app/src/main/res/mipmap-hdpi
+          mkdir -p android/app/src/main/res/mipmap-xhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxhdpi
+          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
+          mkdir -p android/app/src/main/res/mipmap-anydpi-v26
 
-      - name: Ensure Android Manifest Icon
+          cp resources/android/ic_launcher_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
+          cp resources/android/ic_launcher_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
+          cp resources/android/ic_launcher_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
+          cp resources/android/ic_launcher_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
+          cp resources/android/ic_launcher_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
+          cp resources/android/ic_launcher_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
+          cp resources/android/ic_launcher_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
+          cp resources/android/ic_launcher_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
+          cp resources/android/ic_launcher_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
+          cp resources/android/ic_launcher_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
+
+          cp resources/android/ic_launcher_adaptive_back_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_adaptive_back.png
+          cp resources/android/ic_launcher_adaptive_fore_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_adaptive_fore.png
+          cp resources/android/ic_launcher_adaptive_back_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_adaptive_back.png
+          cp resources/android/ic_launcher_adaptive_fore_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_adaptive_fore.png
+          cp resources/android/ic_launcher_adaptive_back_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_adaptive_back.png
+          cp resources/android/ic_launcher_adaptive_fore_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_adaptive_fore.png
+          cp resources/android/ic_launcher_adaptive_back_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_adaptive_back.png
+          cp resources/android/ic_launcher_adaptive_fore_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_adaptive_fore.png
+          cp resources/android/ic_launcher_adaptive_back_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_back.png
+          cp resources/android/ic_launcher_adaptive_fore_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png
+
+          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
+          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+
+      - name: Ensure Android Manifest icon
         run: |
           python3 - <<'PY'
           from pathlib import Path
           p = Path('android/app/src/main/AndroidManifest.xml')
           s = p.read_text()
-          s = s.replace('android:label="IP_RJP"', 'android:label="IP_RJP"')
-          if 'android:icon=' not in s:
-              s = s.replace('<application ', '<application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" ')
-          else:
-              import re
-              s = re.sub(r'android:icon="[^"]+"', 'android:icon="@mipmap/ic_launcher"', s)
-              if 'android:roundIcon=' in s:
-                  s = re.sub(r'android:roundIcon="[^"]+"', 'android:roundIcon="@mipmap/ic_launcher_round"', s)
-              else:
-                  s = s.replace('<application ', '<application android:roundIcon="@mipmap/ic_launcher_round" ')
+          s = s.replace('android:label="IP_RJP"', 'android:label="IP_RJP" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round"') if 'android:icon=' not in s else s
           p.write_text(s)
           PY
 
