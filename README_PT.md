@@ -1,33 +1,53 @@
-# IP_RJP V3 Sprint 1
+# IP_RJP Professional 1.0
 
-Aplicação profissional simples para registo de:
+Aplicação profissional para registo de **deslocações** e **prevenções BT/CC**, pensada para apoio ao preenchimento mensal de abonos.
 
-- Deslocações
-- Prevenções BT
-- Prevenções CC
+## Inclui
+
+- Dashboard mensal
+- Calendário mensal com marcações
+- Vista semanal
+- Vista diária
+- Agenda com pesquisa e filtros
+- Registo de deslocações
+- Registo de prevenções BT ou CC
+- Editar, apagar e duplicar registos
+- Viaturas favoritas
+- Destinos frequentes
+- Perfis de horário
 - Exportação PDF
 - Exportação CSV
 - Exportação Excel XLSX
+- Backup/restauro JSON
+- Preparação para Outlook / Microsoft 365
+- WebApp/PWA
+- Build Android por GitHub Actions
+- Ícones Android/PWA integrados
 
-## Como usar no GitHub
-
-1. Extrair o ZIP.
-2. Enviar todos os ficheiros soltos para o repositório `IP_RJP`.
-3. Ir a Actions.
-4. Executar `Build Android APK`.
-5. Descarregar o artefacto `IP_RJP_Debug_APK`.
-
-## WebApp
-
-O projeto usa Vite. Para publicar em GitHub Pages, criar workflow Pages ou executar:
+## Instalação
 
 ```bash
-npm install
+npm install --no-audit --no-fund --legacy-peer-deps
 npm run build
 ```
 
-A pasta gerada é `dist`.
+## Android
 
-## Dados
+```bash
+npx cap add android
+npx cap sync android
+cd android
+./gradlew assembleDebug
+```
 
-Os dados ficam guardados localmente no navegador/telemóvel através de `localStorage`.
+Ou usa o workflow:
+
+`.github/workflows/build-android.yml`
+
+## Publicar WebApp
+
+O projeto é Vite. Depois de `npm run build`, a pasta gerada é `dist`.
+
+## Outlook
+
+A área de definições já tem campos para `Tenant ID` e `Client ID`. A ligação real ao Microsoft Graph fica preparada para a próxima evolução.
