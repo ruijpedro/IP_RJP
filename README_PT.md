@@ -1,42 +1,33 @@
-# IP_RJP v2.1
+# IP_RJP V3 Sprint 1
 
-Aplicação simples para calendário/agenda profissional com foco em:
+Aplicação profissional simples para registo de:
 
-- Registo de deslocações;
-- Registo de dias de prevenção;
-- Prevenções apenas do tipo **BT** ou **CC**;
-- Matrícula da viatura;
-- Hora de saída e hora de chegada;
-- Resumo mensal para apoio aos abonos;
-- Exportação CSV e impressão/guardar como PDF;
-- WebApp/PWA e preparação para APK Android com Capacitor.
+- Deslocações
+- Prevenções BT
+- Prevenções CC
+- Exportação PDF
+- Exportação CSV
+- Exportação Excel XLSX
 
-## Como usar
+## Como usar no GitHub
 
-1. Abrir a app.
-2. Escolher o mês no topo.
-3. No calendário, selecionar o dia.
-4. Criar **Deslocação** ou **Prevenção**.
-5. No fim do mês, usar **CSV** ou **PDF** no resumo mensal.
+1. Extrair o ZIP.
+2. Enviar todos os ficheiros soltos para o repositório `IP_RJP`.
+3. Ir a Actions.
+4. Executar `Build Android APK`.
+5. Descarregar o artefacto `IP_RJP_Debug_APK`.
 
-## Prevenções
+## WebApp
 
-As prevenções são apenas:
-
-- **BT**
-- **CC**
-
-A opção BT/CC foi removida.
-
-## GitHub / WebApp
+O projeto usa Vite. Para publicar em GitHub Pages, criar workflow Pages ou executar:
 
 ```bash
-npm install --legacy-peer-deps
+npm install
 npm run build
 ```
 
-O resultado da WebApp fica em `dist/`.
+A pasta gerada é `dist`.
 
-## APK Android
+## Dados
 
-O workflow `.github/workflows/build-android.yml` usa Node 22 e cria a APK debug automaticamente nos Artifacts do GitHub Actions.
+Os dados ficam guardados localmente no navegador/telemóvel através de `localStorage`.

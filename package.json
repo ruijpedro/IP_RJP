@@ -1,26 +1,27 @@
 {
   "name": "ip-rjp",
-  "version": "2.1.0",
+  "version": "3.0.0-sprint1",
   "private": true,
   "type": "module",
   "scripts": {
     "dev": "vite --host 0.0.0.0",
     "build": "vite build",
     "preview": "vite preview --host 0.0.0.0",
-    "cap:sync": "npx cap sync android",
-    "android": "npm run build && npx cap sync android && cd android && ./gradlew assembleDebug"
+    "cap:add:android": "cap add android",
+    "cap:sync": "cap sync android"
   },
   "dependencies": {
     "@capacitor/android": "latest",
+    "@capacitor/app": "latest",
     "@capacitor/core": "latest",
+    "@capacitor/cli": "latest",
     "@vitejs/plugin-react": "latest",
     "vite": "latest",
+    "typescript": "latest",
     "react": "latest",
     "react-dom": "latest",
-    "lucide-react": "latest"
+    "jspdf": "latest",
+    "xlsx": "latest"
   },
-  "devDependencies": {
-    "@capacitor/cli": "latest",
-    "typescript": "latest"
-  }
+  "devDependencies": {}
 }
