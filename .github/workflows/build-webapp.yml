@@ -1,35 +1,64 @@
-name: Build IP_RJP WebApp
+name: Build WebApp
 
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 permissions:
   contents: read
+  pages: write
+  id-token: write
+
+concurrency:
+  group: pages
+  cancel-in-progress: false
 
 jobs:
   build-webapp:
     runs-on: ubuntu-latest
-    timeout-minutes: 20
+    timeout-minutes: 25
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
-      - name: Setup Node.js
+      - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund --legacy-peer-deps --no-package-lock
+      - name: Install Dependencies
+        run: |
+          npm cache clean --force
+          npm install --no-audit --no-fund --legacy-peer-deps
 
       - name: Build WebApp
         run: npm run build
 
-      - name: Upload WebApp artifact
+      - name: Upload WebApp Artifact
         uses: actions/upload-artifact@v4
         with:
-          name: IP_RJP-webapp-dist
+          name: IP_RJP_WebApp_dist
           path: dist
+
+      - name: Setup GitHub Pages
+        uses: actions/configure-pages@v5
+
+      - name: Upload GitHub Pages Artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: dist
+
+  deploy-pages:
+    needs: build-webapp
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+
+    steps:
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4
