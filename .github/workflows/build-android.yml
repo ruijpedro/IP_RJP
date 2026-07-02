@@ -41,14 +41,15 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Build APK
+           - name: Build APK
         run: |
+          if [ ! -f "android/gradlew" ]; then
+            echo "gradlew não existe. A recriar plataforma Android..."
+            rm -rf android
+            npx cap add android
+            npx cap sync android
+          fi
+
           cd android
           chmod +x ./gradlew
           ./gradlew assembleDebug
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: IP_RJP-debug-apk
-          path: android/app/build/outputs/apk/debug/*.apk
