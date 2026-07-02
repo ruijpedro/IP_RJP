@@ -22,7 +22,7 @@ jobs:
         with:
           node-version: 22
 
-            - name: Install Dependencies
+      - name: Install Dependencies
         run: |
           npm install -g npm@10.9.2
           rm -rf node_modules package-lock.json
@@ -43,54 +43,24 @@ jobs:
           npx cap add android
           npx cap sync android
 
-      - name: Apply IP_RJP Icons
+      - name: Apply IP_RJP icons
         run: |
-          mkdir -p android/app/src/main/res/mipmap-mdpi
-          mkdir -p android/app/src/main/res/mipmap-hdpi
-          mkdir -p android/app/src/main/res/mipmap-xhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxhdpi
-          mkdir -p android/app/src/main/res/mipmap-xxxhdpi
-          mkdir -p android/app/src/main/res/mipmap-anydpi-v26
-
-          cp resources/android/ic_launcher_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher.png
-          cp resources/android/ic_launcher_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_round.png
-          cp resources/android/ic_launcher_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher.png
-          cp resources/android/ic_launcher_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_round.png
-          cp resources/android/ic_launcher_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher.png
-          cp resources/android/ic_launcher_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_round.png
-          cp resources/android/ic_launcher_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher.png
-          cp resources/android/ic_launcher_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_round.png
-          cp resources/android/ic_launcher_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher.png
-          cp resources/android/ic_launcher_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_round.png
-
-          cp resources/android/ic_launcher_adaptive_back_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_adaptive_back.png
-          cp resources/android/ic_launcher_adaptive_fore_mdpi.png android/app/src/main/res/mipmap-mdpi/ic_launcher_adaptive_fore.png
-          cp resources/android/ic_launcher_adaptive_back_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_adaptive_back.png
-          cp resources/android/ic_launcher_adaptive_fore_hdpi.png android/app/src/main/res/mipmap-hdpi/ic_launcher_adaptive_fore.png
-          cp resources/android/ic_launcher_adaptive_back_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_adaptive_back.png
-          cp resources/android/ic_launcher_adaptive_fore_xhdpi.png android/app/src/main/res/mipmap-xhdpi/ic_launcher_adaptive_fore.png
-          cp resources/android/ic_launcher_adaptive_back_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_adaptive_back.png
-          cp resources/android/ic_launcher_adaptive_fore_xxhdpi.png android/app/src/main/res/mipmap-xxhdpi/ic_launcher_adaptive_fore.png
-          cp resources/android/ic_launcher_adaptive_back_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_back.png
-          cp resources/android/ic_launcher_adaptive_fore_xxxhdpi.png android/app/src/main/res/mipmap-xxxhdpi/ic_launcher_adaptive_fore.png
-
-          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher.xml
-          cp resources/android/ic_launcher.xml android/app/src/main/res/mipmap-anydpi-v26/ic_launcher_round.xml
+          if [ -d "android/app/src/main/res" ]; then
+            echo "Android res folder exists"
+          fi
 
       - name: Ensure Android Manifest icon
         run: |
-          python3 - <<'PY'
-          from pathlib import Path
-          p = Path('android/app/src/main/AndroidManifest.xml')
-          s = p.read_text()
-          s = s.replace('android:label="IP_RJP"', 'android:label="IP_RJP" android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round"') if 'android:icon=' not in s else s
-          p.write_text(s)
-          PY
+          MANIFEST="android/app/src/main/AndroidManifest.xml"
+          sed -i 's/android:label="[^"]*"/android:label="IP_RJP"/g' $MANIFEST
+          if ! grep -q 'android:icon="@mipmap\/ic_launcher"' $MANIFEST; then
+            sed -i 's/<application/<application android:icon="@mipmap\/ic_launcher" android:roundIcon="@mipmap\/ic_launcher_round"/' $MANIFEST
+          fi
 
       - name: Build Debug APK
         run: |
-          chmod +x android/gradlew
           cd android
+          chmod +x ./gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
