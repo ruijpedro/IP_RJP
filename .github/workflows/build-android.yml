@@ -25,7 +25,6 @@ jobs:
       - name: Install Dependencies
         run: |
           rm -rf node_modules
-          rm -f package-lock.json
           npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Build WebApp
@@ -37,11 +36,15 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install Capacitor CLI
-        run: npm install -g @capacitor/cli
-
-      - name: Create Android Platform if Missing
+      - name: Prepare Android Platform
         run: |
+          # Se existir uma pasta android incompleta, remove-a.
+          if [ -d android ] && [ ! -f android/gradlew ]; then
+            echo "Pasta android incompleta encontrada. A recriar..."
+            rm -rf android
+          fi
+
+          # Cria a plataforma Android completa se ainda não existir.
           if [ ! -d android ]; then
             npx cap add android
           fi
@@ -49,10 +52,35 @@ jobs:
       - name: Sync Capacitor
         run: npx cap sync android
 
+      - name: Apply IP_RJP Icons
+        run: |
+          if [ -d android-res ]; then
+            cp -r android-res/* android/app/src/main/res/
+          fi
+
+      - name: Ensure Android Manifest Icon
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+          p = Path('android/app/src/main/AndroidManifest.xml')
+          s = p.read_text()
+          s = s.replace('android:label="IP_RJP"', 'android:label="IP_RJP"')
+          if 'android:icon=' not in s:
+              s = s.replace('<application ', '<application android:icon="@mipmap/ic_launcher" android:roundIcon="@mipmap/ic_launcher_round" ')
+          else:
+              import re
+              s = re.sub(r'android:icon="[^"]+"', 'android:icon="@mipmap/ic_launcher"', s)
+              if 'android:roundIcon=' in s:
+                  s = re.sub(r'android:roundIcon="[^"]+"', 'android:roundIcon="@mipmap/ic_launcher_round"', s)
+              else:
+                  s = s.replace('<application ', '<application android:roundIcon="@mipmap/ic_launcher_round" ')
+          p.write_text(s)
+          PY
+
       - name: Build Debug APK
         run: |
+          chmod +x android/gradlew
           cd android
-          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
