@@ -22,10 +22,11 @@ jobs:
         with:
           node-version: 22
 
-      - name: Install Dependencies
+            - name: Install Dependencies
         run: |
-          rm -rf node_modules
-          npm install --legacy-peer-deps --no-audit --no-fund
+          npm install -g npm@10.9.2
+          rm -rf node_modules package-lock.json
+          npm install --legacy-peer-deps --no-audit --no-fund --no-package-lock
 
       - name: Build WebApp
         run: npm run build
