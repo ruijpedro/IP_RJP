@@ -12,6 +12,7 @@ jobs:
   build-android:
     runs-on: ubuntu-latest
     timeout-minutes: 45
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
@@ -23,9 +24,9 @@ jobs:
 
       - name: Install Dependencies
         run: |
-          npm cache clean --force
           rm -rf node_modules
-          npm install --no-audit --no-fund --legacy-peer-deps
+          rm -f package-lock.json
+          npm install --legacy-peer-deps --no-audit --no-fund
 
       - name: Build WebApp
         run: npm run build
@@ -41,8 +42,7 @@ jobs:
 
       - name: Create Android Platform if Missing
         run: |
-          if [ ! -d "android" ] || [ ! -f "android/gradlew" ]; then
-            rm -rf android
+          if [ ! -d android ]; then
             npx cap add android
           fi
 
