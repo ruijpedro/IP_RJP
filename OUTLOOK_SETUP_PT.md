@@ -1,48 +1,20 @@
-# IP_RJP — Ligação ao Outlook / Microsoft 365
+# Ligação ao Outlook
 
-## 1. Microsoft Entra
+A app tem a área Outlook preparada, mas a ligação real exige registo no Microsoft Entra.
 
-Entra em `https://entra.microsoft.com` e cria um registo de aplicação:
+1. Abrir https://entra.microsoft.com
+2. Ir a **Registos de aplicações**.
+3. Criar novo registo com o nome `IP_RJP`.
+4. Copiar:
+   - Application / Client ID
+   - Directory / Tenant ID
+5. Colocar esses valores na app, no menu **Outlook**.
 
-- Nome: `IP_RJP`
-- Supported account types: usa a opção adequada à tua conta
-- Redirect URI: **Single-page application (SPA)**
-- URI: o endereço da WebApp publicada, por exemplo:
-  - `http://localhost:5173/` para testes locais
-  - `https://UTILIZADOR.github.io/IP_RJP/` para GitHub Pages
+Permissões Microsoft Graph a configurar posteriormente:
 
-## 2. Códigos necessários
-
-Copia para a app:
-
-- Application (client) ID
-- Directory (tenant) ID
-
-Na IP_RJP abre:
-
-`Definições → Outlook / Microsoft 365`
-
-E cola os dois valores.
-
-## 3. Permissões Microsoft Graph
-
-Adiciona permissões delegadas:
-
-- `User.Read`
-- `Calendars.Read`
-- `Calendars.ReadWrite`
-
-Depois, na app:
-
-`Outlook → Ligar Outlook`
-
-## 4. O que esta versão faz
-
-- Login Microsoft via MSAL.
-- Lê eventos da agenda Outlook num intervalo de datas.
-- Exporta deslocações do mês para eventos Outlook.
-- Exporta prevenções BT/CC do mês para eventos Outlook.
-
-## Nota
-
-Se usares conta profissional da Infraestruturas de Portugal, pode ser necessário consentimento/autorização do administrador de TI.
+- User.Read
+- Calendars.Read
+- Calendars.ReadWrite
+- offline_access
+- openid
+- profile

@@ -1,41 +1,40 @@
 # IP_RJP
 
-Autor  
-Rui Jorge Pedro
+**Deslocações • Prevenções BT/CC**
 
-Infraestruturas de Portugal
-
+Autor: **Rui Jorge Pedro**  
+Infraestruturas de Portugal  
 © 2026
 
-## Funções principais
+## O que inclui esta reorganização
 
-- Deslocações
-- Prevenções BT/CC
-- Atividades
-- Viaturas
-- Exportação PDF, CSV e Excel
-- Preparação para Outlook / Microsoft 365
+- Projeto reorganizado por módulos.
+- Cabeçalho limpo: `IP_RJP` e `Deslocações • Prevenções BT/CC`.
+- Menu **Sobre** com autor, Infraestruturas de Portugal e © 2026.
+- Gestão de deslocações.
+- Prevenções apenas **BT** ou **CC**.
+- Atividades profissionais.
+- Viaturas pré-carregadas:
+  - `03-ZQ-46` — Fiat — Branco — Viatura de serviço.
+  - `23-ZP-64` — Renault Kangoo — Branco — Viatura de serviço.
+  - `87-HN-72` — Mitsubishi L200 DI-D — Branco — Pick-up de serviço.
+- Fotografias das viaturas incluídas em `public/vehicles`.
+- Exportação mensal em PDF, CSV e Excel.
+- Área Outlook preparada para Client ID e Tenant ID.
+- GitHub Actions para WebApp e Android.
+- Android recriado automaticamente no workflow para evitar erro de `gradlew` em falta.
 
-## Correção desta versão
+## Upload para GitHub
 
-Esta versão remove a pasta Android incompleta e passa a recriar automaticamente a plataforma Android completa durante o GitHub Actions.
+Extrai o ZIP e envia os ficheiros soltos para o repositório:
 
-O erro corrigido era:
+- `src`
+- `public`
+- `resources`
+- `.github`
+- `package.json`
+- `vite.config.js`
+- `capacitor.config.ts`
+- `index.html`
 
-```text
-chmod: cannot access 'gradlew': No such file or directory
-```
-
-## Como atualizar no GitHub
-
-1. Extrair o ZIP.
-2. Apagar no repositório antigo a pasta `android`, se existir.
-3. Enviar todos os ficheiros novos para o GitHub.
-4. Confirmar que existe a pasta `android-res`.
-5. Correr o workflow **Build Android APK**.
-
-A APK ficará em:
-
-```text
-Actions → Build Android APK → Artifacts → IP_RJP_Debug_APK
-```
+Não é necessário enviar pasta `android`; o workflow cria-a automaticamente.
