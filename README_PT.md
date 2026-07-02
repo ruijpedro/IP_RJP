@@ -1,28 +1,41 @@
-# IP_RJP — Viaturas
+# IP_RJP
 
-Aplicação profissional para registo de deslocações, prevenções BT/CC, atividades e viaturas.
+Autor  
+Rui Jorge Pedro
 
-## Inclui
-- Dashboard mensal
-- Calendário com marcações
-- Deslocações com viatura por lista
-- Prevenções apenas BT ou CC
-- Atividades profissionais
-- Viaturas pré-carregadas:
-  - 03-ZQ-46 — Fiat
-  - 23-ZP-64 — Renault Kangoo
-  - 87-HN-72 — Mitsubishi L200 DI-D
-- Exportação PDF
-- Exportação CSV
-- Exportação Excel XLSX
-- Preparação para Outlook / Microsoft Graph
-- WebApp/PWA
-- Capacitor Android
+Infraestruturas de Portugal
 
-## GitHub
-Carrega os ficheiros soltos para o repositório e executa a action `Build Android APK`.
+© 2026
 
+## Funções principais
 
-## Alterações v2.3
-- Cabeçalho alterado para: IP_RJP / Deslocações • Prevenções BT/CC.
-- Adicionado menu Sobre com autor, Infraestruturas de Portugal e © 2026.
+- Deslocações
+- Prevenções BT/CC
+- Atividades
+- Viaturas
+- Exportação PDF, CSV e Excel
+- Preparação para Outlook / Microsoft 365
+
+## Correção desta versão
+
+Esta versão remove a pasta Android incompleta e passa a recriar automaticamente a plataforma Android completa durante o GitHub Actions.
+
+O erro corrigido era:
+
+```text
+chmod: cannot access 'gradlew': No such file or directory
+```
+
+## Como atualizar no GitHub
+
+1. Extrair o ZIP.
+2. Apagar no repositório antigo a pasta `android`, se existir.
+3. Enviar todos os ficheiros novos para o GitHub.
+4. Confirmar que existe a pasta `android-res`.
+5. Correr o workflow **Build Android APK**.
+
+A APK ficará em:
+
+```text
+Actions → Build Android APK → Artifacts → IP_RJP_Debug_APK
+```
