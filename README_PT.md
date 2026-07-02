@@ -1,57 +1,42 @@
-# IP_RJP v2.0
+# IP_RJP v2.1
 
-Aplicação profissional simples para registar **deslocações** e **prevenções**, com calendário mensal e resumo para apoio aos abonos.
+Aplicação simples para calendário/agenda profissional com foco em:
 
-## Funções principais
+- Registo de deslocações;
+- Registo de dias de prevenção;
+- Prevenções apenas do tipo **BT** ou **CC**;
+- Matrícula da viatura;
+- Hora de saída e hora de chegada;
+- Resumo mensal para apoio aos abonos;
+- Exportação CSV e impressão/guardar como PDF;
+- WebApp/PWA e preparação para APK Android com Capacitor.
 
-- Calendário mensal com marcação **D** para deslocações e **P** para prevenções.
-- Registo de deslocações com data, origem, destino, matrícula, hora de saída, hora de chegada e observações.
-- Registo de prevenções com data, tipo BT / CC / BT/CC e observações.
-- Agenda mensal pesquisável.
-- Lista configurável de matrículas frequentes.
-- Lista configurável de locais frequentes.
-- Duplicar registos habituais.
-- Exportar CSV mensal para apoio ao preenchimento dos abonos.
-- Imprimir / guardar PDF pelo navegador.
-- Backup e reposição em JSON.
-- Funciona offline no telemóvel e na WebApp através de localStorage.
+## Como usar
 
-## Publicar no GitHub
+1. Abrir a app.
+2. Escolher o mês no topo.
+3. No calendário, selecionar o dia.
+4. Criar **Deslocação** ou **Prevenção**.
+5. No fim do mês, usar **CSV** ou **PDF** no resumo mensal.
 
-1. Extrair o ZIP.
-2. Abrir a pasta `IP_RJP`.
-3. Fazer upload de todos os ficheiros e pastas para o repositório GitHub.
-4. Ir a **Actions**.
-5. Executar **Build IP_RJP Android APK** para gerar APK.
-6. Executar **Build IP_RJP WebApp** para gerar WebApp.
+## Prevenções
 
-## Android / APK
+As prevenções são apenas:
 
-O workflow já está preparado com:
+- **BT**
+- **CC**
 
-- Node.js 22.
-- Java 21.
-- TypeScript instalado.
-- Capacitor Android.
-- Ícone adaptativo Android `ic_launcher` e `ic_launcher_round`.
-- Nome da app: `IP_RJP`.
-- App ID: `pt.rjp.ip_rjp`.
+A opção BT/CC foi removida.
 
-## WebApp
-
-O projeto usa Vite + React. Para testar localmente:
+## GitHub / WebApp
 
 ```bash
-npm install
-npm run dev
-```
-
-Para gerar a versão WebApp:
-
-```bash
+npm install --legacy-peer-deps
 npm run build
 ```
 
-## Dados
+O resultado da WebApp fica em `dist/`.
 
-Os dados ficam guardados localmente no dispositivo. Usa o botão **Backup JSON** antes de trocar de telemóvel ou limpar o navegador.
+## APK Android
+
+O workflow `.github/workflows/build-android.yml` usa Node 22 e cria a APK debug automaticamente nos Artifacts do GitHub Actions.

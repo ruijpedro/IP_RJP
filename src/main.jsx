@@ -22,7 +22,7 @@ const defaultSettings = {
   matriculas: [''],
   locais: ['Leiria', 'Caldas da Rainha', 'São Martinho do Porto', 'Marinha Grande', 'Pataias', 'Valado dos Frades', 'Óbidos', 'Bombarral', 'Torres Vedras'],
   origemPadrao: 'Leiria',
-  tipoPrevencaoPadrao: 'BT/CC'
+  tipoPrevencaoPadrao: 'BT'
 };
 
 const emptyForm = {
@@ -33,7 +33,7 @@ const emptyForm = {
   matricula: '',
   horaSaida: '',
   horaChegada: '',
-  prevencaoTipo: 'BT/CC',
+  prevencaoTipo: 'BT',
   observacoes: ''
 };
 
@@ -90,7 +90,7 @@ function App() {
 
   function limparForm(tipo = form.tipo, data = form.data || selectedDay) {
     setEditingId(null);
-    setForm({ ...emptyForm, tipo, data, origem: settings.origemPadrao || '', prevencaoTipo: settings.tipoPrevencaoPadrao || 'BT/CC' });
+    setForm({ ...emptyForm, tipo, data, origem: settings.origemPadrao || '', prevencaoTipo: settings.tipoPrevencaoPadrao || 'BT' });
   }
 
   function abrirNovo(tipo, data = selectedDay) {
@@ -122,7 +122,7 @@ function App() {
   }
 
   function exportJSON() {
-    const blob = new Blob([JSON.stringify({ app: 'IP_RJP', version: '2.0', exportedAt: new Date().toISOString(), settings, registos }, null, 2)], { type: 'application/json' });
+    const blob = new Blob([JSON.stringify({ app: 'IP_RJP', version: '2.1', exportedAt: new Date().toISOString(), settings, registos }, null, 2)], { type: 'application/json' });
     baixar(blob, `IP_RJP_backup_${hojeISO()}.json`);
   }
 
@@ -163,7 +163,7 @@ function App() {
 
   return <div className="app">
     <header className="topbar">
-      <div className="brand"><img src="/logo.png" alt="IP_RJP"/><div><b>IP_RJP</b><span>Calendário profissional · Deslocações · Prevenções</span></div></div>
+      <div className="brand"><img src="/logo.png" alt="IP_RJP"/><div><b>IP_RJP</b><span>Agenda profissional · Deslocações · Prevenções BT/CC</span></div></div>
       <div className="month-controls print-hide">
         <button onClick={() => setCurrentMonth(nextMonth(currentMonth, -1))}><ChevronLeft size={18}/></button>
         <input type="month" value={currentMonth} onChange={e => setCurrentMonth(e.target.value)} />
@@ -217,7 +217,7 @@ function App() {
             <div className="two"><label>Hora de saída<input type="time" value={form.horaSaida} onChange={e => setForm({ ...form, horaSaida: e.target.value })} /></label><label>Hora de chegada<input type="time" value={form.horaChegada} onChange={e => setForm({ ...form, horaChegada: e.target.value })} /></label></div>
             {duration(form.horaSaida, form.horaChegada) && <div className="hint">Duração: <b>{duration(form.horaSaida, form.horaChegada)}</b></div>}
           </> : <>
-            <label>Tipo de prevenção<select value={form.prevencaoTipo} onChange={e => setForm({ ...form, prevencaoTipo: e.target.value })}><option>BT</option><option>CC</option><option>BT/CC</option></select></label>
+            <label>Tipo de prevenção<select value={form.prevencaoTipo} onChange={e => setForm({ ...form, prevencaoTipo: e.target.value })}><option>BT</option><option>CC</option></select></label>
           </>}
           <label>Observações<textarea value={form.observacoes} onChange={e => setForm({ ...form, observacoes: e.target.value })} placeholder="Notas para apoio aos abonos" /></label>
           <div className="actions"><button className="primary"><Save size={18}/> Guardar</button><button type="button" onClick={() => limparForm(form.tipo)}><X size={18}/> Limpar</button></div>
@@ -233,7 +233,7 @@ function App() {
         <h2>Definições rápidas</h2>
         <form onSubmit={guardarSettings}>
           <label>Origem padrão<input value={settings.origemPadrao} onChange={e => setSettings({ ...settings, origemPadrao: e.target.value })}/></label>
-          <label>Tipo de prevenção padrão<select value={settings.tipoPrevencaoPadrao} onChange={e => setSettings({ ...settings, tipoPrevencaoPadrao: e.target.value })}><option>BT</option><option>CC</option><option>BT/CC</option></select></label>
+          <label>Tipo de prevenção padrão<select value={settings.tipoPrevencaoPadrao} onChange={e => setSettings({ ...settings, tipoPrevencaoPadrao: e.target.value })}><option>BT</option><option>CC</option></select></label>
           <label>Matrículas frequentes<textarea value={settingsText.matriculas} onChange={e => setSettingsText({ ...settingsText, matriculas: e.target.value })} placeholder="Uma matrícula por linha"/></label>
           <label>Locais frequentes<textarea value={settingsText.locais} onChange={e => setSettingsText({ ...settingsText, locais: e.target.value })} placeholder="Um local por linha"/></label>
           <div className="actions"><button className="primary"><Save size={18}/> Guardar definições</button><button type="button" onClick={exportJSON}><FileJson size={18}/> Backup JSON</button><label className="buttonlike"><Upload size={18}/> Importar JSON<input type="file" accept="application/json" hidden onChange={e => importJSON(e.target.files?.[0])}/></label></div>
