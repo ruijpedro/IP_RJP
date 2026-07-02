@@ -3,8 +3,7 @@ name: Build Android APK
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [ main ]
 
 permissions:
   contents: read
@@ -39,30 +38,27 @@ jobs:
           distribution: temurin
           java-version: 21
 
-      - name: Install Capacitor CLI
-        run: |
-          npm install -g @capacitor/cli
-
       - name: Create Android Platform if Missing
         run: |
           if [ ! -d "android" ] || [ ! -f "android/gradlew" ]; then
-            echo "Android platform missing..."
+            echo "Android platform missing. Recreating with Capacitor..."
             rm -rf android
             npx cap add android
           fi
 
       - name: Sync Capacitor
-        run: |
-          npx cap sync android
+        run: npx cap sync android
 
-      - name: Prepare Gradle
+      - name: Apply Android Icon
         run: |
-          cd android
-          chmod +x gradlew
+          if [ -d "resources/android/res" ]; then
+            cp -R resources/android/res/* android/app/src/main/res/
+          fi
 
       - name: Build Debug APK
         run: |
           cd android
+          chmod +x gradlew
           ./gradlew assembleDebug
 
       - name: Upload APK
