@@ -1,9 +1,10 @@
-name: Build IP_RJP Android APK
+name: Build Android APK
 
 on:
   workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
 
 permissions:
   contents: read
@@ -11,29 +12,26 @@ permissions:
 jobs:
   build-android:
     runs-on: ubuntu-latest
-    timeout-minutes: 35
+    timeout-minutes: 40
 
     steps:
-      - name: Checkout
+      - name: Checkout Repository
         uses: actions/checkout@v4
 
       - name: Setup Node.js 22
         uses: actions/setup-node@v4
         with:
           node-version: 22
+          cache: npm
 
-      - name: Install dependencies
-        run: npm install --no-audit --no-fund --legacy-peer-deps
+      - name: Install Dependencies
+        run: |
+          npm cache clean --force
+          rm -rf node_modules package-lock.json
+          npm install
 
       - name: Build WebApp
         run: npm run build
-
-      - name: Add Android platform if missing
-        run: |
-          if [ ! -d "android" ]; then
-            npx cap add android
-          fi
-          npx cap sync android
 
       - name: Setup Java 21
         uses: actions/setup-java@v4
@@ -41,15 +39,30 @@ jobs:
           distribution: temurin
           java-version: 21
 
-           - name: Build APK
+      - name: Install Capacitor CLI
         run: |
-          if [ ! -f "android/gradlew" ]; then
-            echo "gradlew não existe. A recriar plataforma Android..."
+          npm install -g @capacitor/cli
+
+      - name: Create Android Platform if Missing
+        run: |
+          if [ ! -d "android" ] || [ ! -f "android/gradlew" ]; then
+            echo "Android platform not found. Creating..."
             rm -rf android
             npx cap add android
-            npx cap sync android
           fi
 
+      - name: Sync Capacitor
+        run: |
+          npx cap sync android
+
+      - name: Build APK
+        run: |
           cd android
-          chmod +x ./gradlew
+          chmod +x gradlew
           ./gradlew assembleDebug
+
+      - name: Upload APK
+        uses: actions/upload-artifact@v4
+        with:
+          name: IP_RJP_Debug_APK
+          path: android/app/build/outputs/apk/debug/app-debug.apk
